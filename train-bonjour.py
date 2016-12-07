@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import numpy as np
 
 from nimblenet.activation_functions import sigmoid_function
@@ -7,7 +9,6 @@ from nimblenet.data_structures import Instance
 from nimblenet.neuralnet import NeuralNet
 
 import soundfile as sf
-import sounddevice as sd
 import os
 
 class AudioData:
@@ -46,7 +47,7 @@ print len(dataset), 'sounds of size', sound_max_size
 
 settings       = {
     "n_inputs" : sound_max_size,
-    "layers"   : [  (1000, sigmoid_function), (1, sigmoid_function) ]
+    "layers"   : [  (200, sigmoid_function), (1, sigmoid_function) ]
 }
 
 network        = NeuralNet( settings )
@@ -61,12 +62,17 @@ RMSprop(
         test_set,                          # specify the test set
         cost_function,                      # specify the cost function to calculate error
 
-        ERROR_LIMIT             = 1e-20,     # define an acceptable error limit
-        max_iterations         = 500,      # continues until the error limit is reach if this argument is skipped
+        ERROR_LIMIT             = 1e-2,     # define an acceptable error limit
+        max_iterations         = 20,      # continues until the error limit is reach if this argument is skipped
         # save_trained_network = True,
     )
 
-network.save_network_to_file( "trained.pkl" )
+import sys
+if(len(sys.argv) > 1):
+  filename = sys.argv[1]
+else: filename = "trained.pkl"
+print "saving network to file", filename
+network.save_network_to_file( filename )
 
 # a = [0, 1]
 # b = [1, 0]
@@ -74,5 +80,4 @@ network.save_network_to_file( "trained.pkl" )
 # print a, b
 # print network.predict( prediction_set )
 
-print 'Now test the network with "test-bonjour.py"'
-
+print 'Now test the network with the test scripts"'
