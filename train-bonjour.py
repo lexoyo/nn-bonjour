@@ -32,7 +32,6 @@ dataset = []
 for idx in range(len(audiodata)):
     fileRawData = audiodata[idx].fileRawData
     expectedNetworkResponse = audiodata[idx].expectedNetworkResponse
-    print expectedNetworkResponse
     if(sound_max_size != len(fileRawData)):
         fileRawData = np.concatenate((fileRawData, np.zeros((sound_max_size - len(fileRawData)))))
     dataset.append(Instance(fileRawData, [expectedNetworkResponse]))
