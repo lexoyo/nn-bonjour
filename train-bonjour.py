@@ -22,9 +22,10 @@ sound_max_size = 0
 for dirname, dirnames, filenames in os.walk('train'):
     for filename in filenames:
         path = os.path.join(dirname, filename)
-        if(path.find('.') == -1):
+        if(path.find('.keep') == -1):
             sig, fs = sf.read(path)
-            sig.shape = (2 * len(sig)) # from (245196, 2) to (490392,)
+            if(len(sig.shape) > 1):
+                sig.shape = (len(sig.shape) * len(sig)) # from (245196, 2) to (490392,)
             sound_max_size = max(sound_max_size, len(sig))
             audiodata.append(AudioData(sig, path.find('bonjour') != -1))
 
@@ -45,7 +46,7 @@ print len(dataset), 'sounds of size', sound_max_size
 
 settings       = {
     "n_inputs" : sound_max_size,
-    "layers"   : [  (2, sigmoid_function), (1, sigmoid_function) ]
+    "layers"   : [  (1000, sigmoid_function), (1, sigmoid_function) ]
 }
 
 network        = NeuralNet( settings )
@@ -65,31 +66,13 @@ RMSprop(
         # save_trained_network = True,
     )
 
+network.save_network_to_file( "trained.pkl" )
+
 # a = [0, 1]
 # b = [1, 0]
 # prediction_set = [ Instance(a), Instance([1,0]) ]
 # print a, b
 # print network.predict( prediction_set )
 
-import time
-for dirname, dirnames, filenames in os.walk('test'):
-    for filename in filenames:
-        path = os.path.join(dirname, filename)
-        if(path.find('.') == -1):
-            # play the sound
-            sig, fs = sf.read(path)
-            sd.play(sig, fs)
-            # test the nn
-            sig, fs = sf.read(path)
-            sig.shape = (2 * len(sig)) # from (245196, 2) to (490392,)
-            if(sound_max_size > len(sig)):
-                sig = np.concatenate((sig, np.zeros((sound_max_size - len(sig)))))
-            elif(sound_max_size < len(sig)):
-                sig = sig[:sound_max_size]
-                print 'warning the sound is cut'
-            print path, network.predict( [ Instance(sig) ] )
-            time.sleep(10)
+print 'Now test the network with "test-bonjour.py"'
 
-
-
-network.save_network_to_file( "trained.pkl" )

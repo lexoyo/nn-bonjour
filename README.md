@@ -1,4 +1,10 @@
 
+
+Requirements
+* `sudo pip install nimblenet soundfile sounddevice`
+* on fedora you will want `sudo dnf install pyaudio`
+
+
 Test the beast:
 
 * record .ogg audio files of yourself saying many words, and several times hello
