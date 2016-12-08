@@ -47,8 +47,8 @@ for dirname, dirnames, filenames in os.walk('test'):
             else:
                 print path, '\t\t\t', round(prediction, 2), '\t\t\t?'
             # play the sound
-            # sig, fs = sf.read(path)
-            # sd.play(sig, fs, blocking=True)
+            sig, fs = sf.read(path)
+            sd.play(sig, fs, blocking=True)
 
 print '**********************'
 print 'score:', success, ' / ', total

@@ -68,8 +68,8 @@ def check():
     prompt = ' >\t\t' + str(round(prediction, 2))
     if prediction > .8: prompt += '\tYou said bonjour!!'
     print prompt
-    Timer(2, check).start()
-Timer(5, check).start()
+    Timer(1, check).start()
+Timer(1, check).start()
 
 
 def update_plot(frame):

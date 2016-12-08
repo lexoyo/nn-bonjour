@@ -62,8 +62,8 @@ RMSprop(
         test_set,                          # specify the test set
         cost_function,                      # specify the cost function to calculate error
 
-        ERROR_LIMIT             = 1e-2,     # define an acceptable error limit
-        max_iterations         = 20,      # continues until the error limit is reach if this argument is skipped
+        ERROR_LIMIT             = .1,     # define an acceptable error limit
+        max_iterations         = 10,      # continues until the error limit is reach if this argument is skipped
         # save_trained_network = True,
     )
 
