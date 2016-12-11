@@ -1,6 +1,13 @@
 # display a network's first layer weights
 # as line chart or sound wav
 
+import struct
+def toBuffer(list):
+    data = []
+    for i in range( len(list) ):
+        data.append( list[i] )
+    return struct.pack('f'*len(data), *data)
+
 import sys
 if(len(sys.argv) > 1):
   filename = sys.argv[1]
@@ -22,7 +29,6 @@ ax.plot(data)
 ax.axis((0, len(data), -10, 10))
 ax.set_yticks([0])
 ax.yaxis.grid(True)
-# ax.tick_params(bottom='off', top='off', labelbottom='off',
-           # right='off', left='off', labelleft='off')
+# ax.tick_params(bottom='off', top='off', labelbottom='off', right='off', left='off', labelleft='off')
 fig.tight_layout(pad=0)
 plt.show()
