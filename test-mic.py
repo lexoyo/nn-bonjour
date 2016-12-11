@@ -88,7 +88,7 @@ def update_plot(frame):
             break
         shift = len(data)
 
-        plotdata = np.roll(plotdata, shift, axis=0)
+        plotdata = np.roll(plotdata, -shift, axis=0)
         plotdata[-shift:, :] = data
         block = False  # ... all further reads are non-blocking
     for column, line in enumerate(lines):
@@ -112,12 +112,17 @@ try:
     length = nnTester.sound_max_size
     plotdata = np.zeros((length, len(args.channels)))
 
+    data = np.array(plotdata, copy=True)
+    if(len(data.shape) > 1):
+        data.shape = len(data) # from (1, 245196, 1) to (245196,)
+
+
     fig, ax = plt.subplots()
-    lines = ax.plot(plotdata)
+    lines = ax.plot(data)
     if len(args.channels) > 1:
         ax.legend(['channel {}'.format(c) for c in args.channels],
                   loc='lower left', ncol=len(args.channels))
-    ax.axis((0, len(plotdata), -1, 1))
+    ax.axis((0, len(data), -1, 1))
     ax.set_yticks([0])
     ax.yaxis.grid(True)
     ax.tick_params(bottom='off', top='off', labelbottom='off',

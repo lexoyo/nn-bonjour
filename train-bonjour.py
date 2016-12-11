@@ -47,7 +47,7 @@ print len(dataset), 'sounds of size', sound_max_size
 
 settings       = {
     "n_inputs" : sound_max_size,
-    "layers"   : [  (200, sigmoid_function), (1, sigmoid_function) ]
+    "layers"   : [  (40, sigmoid_function), (1, sigmoid_function) ]
 }
 
 network        = NeuralNet( settings )

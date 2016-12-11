@@ -11,4 +11,5 @@ class NnTester:
             print 'Error, data buffer must be the same size as the network'
             return -1
         return self.network.predict( [ Instance(data) ] )[0][0]
-
+    def getLayerData(self):
+      return self.network.get_weights()
